@@ -3,7 +3,8 @@ import { useAuth } from "../axios/context/AuthContext";
 import data from "../data/inventoty";
 import Products from "../compoenents/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { addItems, deleteFromCart } from "../store/CartSlice";
+import { addItems, decreaseQty, deleteFromCart } from "../store/CartSlice";
+import { formatCategoryName } from "../utilities/utility";
 
 const Kitchen = () => {
   const { isAuthenticated } = localStorage.getItem("isAuthenticated");
@@ -20,6 +21,10 @@ const Kitchen = () => {
     console.log(product);
     dispatch(addItems(product));
   };
+  
+  const handleDecrease = (name) => {
+    dispatch(decreaseQty(name))
+  }
 
   return (
     <>
@@ -29,7 +34,7 @@ const Kitchen = () => {
             ([categoryName, products]) => (
               <div key={categoryName} className="mb-5">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                  {categoryName}
+                  {formatCategoryName(categoryName)}
                 </h2>
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
                   {products.map((product, index) => (
@@ -37,6 +42,7 @@ const Kitchen = () => {
                       key={product.id || index}
                       product={product}
                       onButtonClick={handleAddProduct}
+                      onClickDescrease={handleDecrease}
                       cart={cart}
                     />
                   ))}
@@ -80,7 +86,7 @@ const Kitchen = () => {
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
                     >
-                     {item.name}
+                     {item.name} <small>{item.unit}</small>
                     </th>
                     <td className="px-6 py-4">{item.cartQuantity}</td>
                     <td className="px-6 py-4"><button onClick={() => dispatch(deleteFromCart(item.name))}>Delete</button></td>
@@ -88,6 +94,10 @@ const Kitchen = () => {
                   ))}
                 </tbody>
               </table>
+              <div className="text-center my-3">
+                  <button className="text-center bg-gray-700 px-3 py-2 text-white">Request Send to Store</button>
+              </div>
+              
             </div>
           </div>
         )}
