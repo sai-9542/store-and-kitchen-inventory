@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-const Products = ({ product, onButtonClick, cart }) => {
+const Products = ({ product, onButtonClick, cart, onClickDescrease }) => {
   const itemInCart = cart.find((item) => item.name === product.name);
   const quantity = itemInCart ? itemInCart.cartQuantity : 0;
 
   return (
-    <div key={product.id} className="group relative">
+    <div key={product.name} className="group relative">
       <img
         alt={product.imageAlt}
-        src={product.imageSrc}
+        src={`https://placehold.co/200x300?text=${product.name}`}
         className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
       />
       <div className="mt-4 flex justify-between">
@@ -23,6 +23,7 @@ const Products = ({ product, onButtonClick, cart }) => {
               tabIndex="-1"
               aria-label="Decrease"
               data-hs-input-number-decrement=""
+              onClick={() => onClickDescrease(product.name)}
             >
               <svg
                 className="shrink-0 size-3.5"
@@ -82,7 +83,7 @@ const Products = ({ product, onButtonClick, cart }) => {
               {product.name}
             </a>
           </h3>
-          <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+          <p className="mt-1 text-sm text-gray-500">{product.unit}</p>
         </div>
         {/* <p className="text-sm font-medium text-gray-900">{product.price}</p> */}
       </div>

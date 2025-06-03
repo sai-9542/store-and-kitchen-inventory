@@ -16,22 +16,33 @@ const cartSlice = createSlice({
       );
 
       if (index !== -1) {
-        state.items[index].cartQuantity += action.payload.quantity ?? 1;
+        state.items[index].cartQuantity = state.items[index].cartQuantity+1 ?? 1;
       } else {
         state.items.push({
           ...action.payload,
-          cartQuantity: action.payload.quantity ?? 1,
+          cartQuantity: 1,
         });
       }
 
       state.itemsCount += action.payload.quantity ?? 1;
     },
+    decreaseQty: (state, action) => {
+        const item = state.items.find((item) => item.name === action.payload);
+        
+        if (item && item.cartQuantity > 1) {
+            item.cartQuantity -= 1;
+            state.itemsCount -= 1;
+        } else if (item) {
+            // Optional: remove the item completely if quantity is 1
+            state.items = state.items.filter((item) => item.name !== action.payload);
+            state.itemsCount -= 1;
+        }
+    },
     deleteFromCart: (state, action) =>{
-        console.log(action);
         state.items = state.items.filter((item) => item.name !== action.payload);
     }
   },
 });
 
-export const { addItems, deleteFromCart } = cartSlice.actions;
+export const { addItems, deleteFromCart, decreaseQty } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
