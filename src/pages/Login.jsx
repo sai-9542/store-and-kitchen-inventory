@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../axios/context/AuthContext";
+import { useAuth } from "../context/AuthContext";
+import Toast from "../compoenents/errors/Toast";
 
 const Login = () => {
   const [username, setUsername] = useState();
@@ -18,7 +19,7 @@ const Login = () => {
     else{
         setError('')
     }
-    console.log(username, password);
+
     if(username === 'kitchen' && password === 'Kitchen@123'){
       login();
       navigate('/kitchen/request');
@@ -49,15 +50,21 @@ const Login = () => {
     // }
   }
 
+  const handleClose = () => {
+    setError("");
+  }
+
   return (
-    <div className="grid  grid-lg-12 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="grid grid-lg-12 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="shadow p-5">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Sign in to your account
           </h2>
-          <p className="text-red-600">{error && error}</p>
+          <p className="text-red-600 hidden">{error && error}</p>
         </div>
+
+        {error && <Toast message={error} onClose={handleClose} /> }
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">            
           <form className="space-y-6" onSubmit={handleSubmit}>

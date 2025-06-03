@@ -60,7 +60,6 @@ const Kitchen = () => {
           </div>
           {Object.entries(items.kitchen_essentials).map(
             ([categoryName, products]) => {
-              // 🧠 If filters exist and this category is NOT in filters, skip it
               if (filter.length > 0 && !filter.includes(categoryName))
                 return null;
 
