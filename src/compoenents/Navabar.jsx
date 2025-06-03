@@ -1,11 +1,13 @@
 import React from "react";
 import data from "../data/inventoty";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { formatCategoryName } from "../utilities/utility";
+import { useAuth } from "../context/AuthContext";
 
 export const Navabar = () => {
   const categoryNames = Object.keys(data[0].kitchen_essentials);
   //console.log(categoryNames);
+  const  {logout}  = useAuth();
 
   return (
     <nav className="block w-full px-4 py-3 mx-auto bg-white shadow-md rounded-md fixed top-0 z-50">
@@ -20,7 +22,7 @@ export const Navabar = () => {
         <div className="hidden lg:block">
           <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             {categoryNames.length > 0 && categoryNames.map((category) => (
-            <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600" key={category}>
+            <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600 hidden" key={category}>
               {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -59,6 +61,26 @@ export const Navabar = () => {
 
               <a href="#" className="flex items-center">
                 Kitchen
+              </a>
+            </li>
+            <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="h-6 w-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+
+              <a href="#" className="flex items-center" onClick={logout}>
+                Logout
               </a>
             </li>
           </ul>
